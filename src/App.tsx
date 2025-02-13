@@ -1,6 +1,8 @@
 import FacebookLogo from "/src/assets/facebook.svg?react";
 import DiscordLogo from "/src/assets/discord.svg?react";
 import CalendarLogo from "/src/assets/calendar-days.svg?react";
+import { toast, Toaster } from "sonner";
+import BrevoEmailSubscribe from "./components/BrevoEmailSubscribe";
 
 const links = [
   {
@@ -21,6 +23,10 @@ const links = [
 ];
 
 function App() {
+  const handleSubmit = () => {
+    toast("Successfully subscribed to LOCT events");
+  };
+
   return (
     <>
       <header className="sticky top-0 border border-gray-100 bg-white">
@@ -31,6 +37,7 @@ function App() {
         </nav>
       </header>
       <main>
+        <Toaster />
         <section className="bg-white p-4 lg:p-8">
           <div className="mx-auto md:flex w-full">
             <div className="w-[354px] flex flex-col justify-center">
@@ -55,10 +62,11 @@ function App() {
           <div className="container mx-auto items-center py-4 md:flex">
             <div className="md:w-1/3">
               <div className="mx-auto mb-4 p-4 w-full max-w-96 grid grid-cols-1 items-center gap-4">
-                {links.map((link) => {
+                {links.map((link, index) => {
                   const { title, url, img } = link;
                   return (
                     <a
+                      key={index}
                       href={url}
                       className="pt-2 pb-3 text-white text-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  focus:outline-none"
                     >
@@ -99,18 +107,7 @@ function App() {
             <h2 className="mb-2 text-2xl text-gray-800 text-center">
               Sign up for event notifications
             </h2>
-            <input
-              type="email"
-              id="input-label"
-              className="max-w-96 mx-auto rounded-md border border-gray-300 py-3 px-4 text-sm bg-gray-100 text-gray-900"
-              placeholder="Enter your email..."
-            />
-            <a
-              href=""
-              className="mt-2 py-3 px-6 text-white text-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  focus:outline-none"
-            >
-              Sign Up
-            </a>
+            <BrevoEmailSubscribe onSubmit={handleSubmit} />
           </div>
         </section>
       </main>
