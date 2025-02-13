@@ -1,22 +1,22 @@
-import FacebookLogo from "/public/facebook.svg?react";
-import DiscordLogo from "/public/discord.svg?react";
-import CalendarLogo from "/public/calendar-days.svg?react";
+import FacebookLogo from "/src/assets/facebook.svg?react";
+import DiscordLogo from "/src/assets/discord.svg?react";
+import CalendarLogo from "/src/assets/calendar-days.svg?react";
 
 const links = [
   {
     title: "Facebook",
     url: "https://www.facebook.com/share/g/1WMWBcYJ7Y/",
-    img: <FacebookLogo className="fill-white h-[25px] w-[25px]" />,
+    img: <FacebookLogo className="fill-[#FFCB00] h-[25px] w-[25px]" />,
   },
   {
     title: "Discord",
-    url: "https://discord.gg/leagueofcreativetechnologists",
-    img: <DiscordLogo className="fill-white h-[25px] w-[25px]" />,
+    url: "https://discord.gg/VhkgQ4W2SP", // Set to never expire but only allow 100 users. Create a new one if we get more than 100 signups.
+    img: <DiscordLogo className="fill-[#FFCB00] h-[25px] w-[25px]" />,
   },
   {
     title: "Events",
     url: "https://www.meetup.com/League-of-Creative-Technologists/",
-    img: <CalendarLogo className="outline-white h-[25px] w-[25px]" />,
+    img: <CalendarLogo className="stroke-[#FFCB00] h-[25px] w-[25px]" />,
   },
 ];
 
@@ -24,34 +24,34 @@ function App() {
   return (
     <>
       <header className="sticky top-0 border border-gray-100 bg-white">
-        <nav className="mx-auto flex content-center items-center justify-between py-4 xs:max-w-full xs:max-w-full xs:px-7 md:px-10 lg:max-w-screen-xl xl:items-center xl:px-24">
+        <nav className="mx-auto flex content-center items-center justify-between py-4 px-4 lg:px-8">
           <a className="text-lg font-semibold text-gray-600" href="#">
-            League of Creative Technologists
+            <img className="w-[150px]" src="/logo.png" />
           </a>
         </nav>
       </header>
       <main>
-        <section className="bg-white p-4">
-          <div className="mx-auto md:flex w-full lg:p-8">
+        <section className="bg-white p-4 lg:p-8">
+          <div className="mx-auto md:flex w-full">
             <div className="w-[354px] flex flex-col justify-center">
               <h1 className="tracking-tight mb-4 font-extrabold text-gray-900">
                 A Creative Community Merging Art and Tech
               </h1>
               <p className="mb-8 flex text-md text-gray-600">
-                Meeting monthly to share projects, find collaborators, and build
-                more art.
+                The League of Creative Technologists meets monthly to share
+                projects, find collaborators, and build more art.
               </p>
             </div>
             <div className="ml-auto">
               <img
-                className="background-cover md:max-h-[300px] lg:max-h-[400px] rounded-lg object-cover"
+                className="background-cover md:max-h-[300px] lg:max-h-[500px] rounded-lg object-cover"
                 src="/teaching_art_with_light.jpg"
                 alt="LOCT Host Teaching a class on LED's and microcontrollers"
               />
             </div>
           </div>
         </section>
-        <section className="bg-gray-300">
+        <section className="bg-[#ffefd4] lg:px-4">
           <div className="container mx-auto items-center py-4 md:flex">
             <div className="md:w-1/3">
               <div className="mx-auto mb-4 p-4 w-full max-w-96 grid grid-cols-1 items-center gap-4">
@@ -97,22 +97,27 @@ function App() {
         <section className="bg-white py-8">
           <div className="mx-auto flex flex-col items-center bg-white px-6 md:w-1/2">
             <h2 className="mb-2 text-2xl text-gray-800 text-center">
-              Sign up for event notifications.
+              Sign up for event notifications
             </h2>
             <input
               type="email"
               id="input-label"
-              className="block max-w-96 mx-auto rounded-sm border border-gray-300 py-3 px-4 text-sm bg-gray-800 text-gray-100"
-              placeholder="yourusername@site.com"
+              className="max-w-96 mx-auto rounded-md border border-gray-300 py-3 px-4 text-sm bg-gray-100 text-gray-900"
+              placeholder="Enter your email..."
             />
-            <button className="mt-4 max-w-30">Sign Up</button>
+            <a
+              href=""
+              className="mt-2 py-3 px-6 text-white text-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  focus:outline-none"
+            >
+              Sign Up
+            </a>
           </div>
         </section>
       </main>
-      <footer className="mx-auto flex flex-col bg-blue-200 pt-16 pb-16">
-        <div className="mx-auto mb-6 flex flex-col content-center text-center xs:max-w-full xs:px-5 md:px-6 lg:max-w-screen-md lg:px-16 xl:items-center xl:px-24">
-          <p className="mx-auto flex text-sm text-gray-600 sm:max-w-md md:max-w-xl md:text-center">
-            LOCT
+      <footer className="mx-auto flex flex-col bg-[#FFCB00] py-8">
+        <div className="mx-auto mb-6 flex flex-col text-center max-w-full items-center">
+          <p className="mx-auto flex text-sm text-gray-600 text-center">
+            Copyright League of Creative Technologists, 2025
           </p>
         </div>
       </footer>
