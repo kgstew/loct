@@ -3,6 +3,7 @@ import DiscordLogo from "/src/assets/discord.svg?react";
 import CalendarLogo from "/src/assets/calendar-days.svg?react";
 import { toast, Toaster } from "sonner";
 import BrevoEmailSubscribe from "./components/BrevoEmailSubscribe";
+import Calendar from "./components/Calendar";
 
 const links = [
   {
@@ -17,7 +18,7 @@ const links = [
   },
   {
     title: "Events",
-    url: "https://www.meetup.com/League-of-Creative-Technologists/",
+    url: "#events",
     img: <CalendarLogo className="stroke-[#FFCB00] h-[25px] w-[25px]" />,
   },
 ];
@@ -110,9 +111,12 @@ function App() {
             <BrevoEmailSubscribe onSubmit={handleSubmit} />
           </div>
         </section>
+        <section>
+          <Calendar />
+        </section>
       </main>
       <footer className="mx-auto flex flex-col bg-[#FFCB00] py-8">
-        <div className="mx-auto mb-6 flex flex-col text-center max-w-full items-center">
+        <div className="mx-auto flex flex-col text-center max-w-full items-center">
           <p className="mx-auto flex text-sm text-gray-600 text-center">
             Copyright League of Creative Technologists, 2025
           </p>
