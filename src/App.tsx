@@ -87,7 +87,7 @@ function App() {
                 Whether you're a technical artist, an engineer with an artistic
                 streak, or someone who simply loves the intersection of art and
                 technology, you'll find your place here. We're a diverse group
-                of makers, creators, and innovators who gather regularly in the
+                of makers, creators, and muppeteers who gather regularly in the
                 Denver/Boulder area to share ideas, collaborate on projects, and
                 inspire each other.
               </p>
