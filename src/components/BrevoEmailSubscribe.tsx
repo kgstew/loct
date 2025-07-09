@@ -101,7 +101,7 @@ const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
           <input
             type="email"
             id="input-label"
-            className="max-w-96 mx-auto rounded-md border border-gray-300 py-3 px-4 text-sm bg-gray-100 text-gray-900"
+            className="w-80 sm:w-[400px] mx-auto rounded-md border border-gray-300 py-3 px-4 text-sm bg-gray-100 text-gray-900"
             placeholder="Enter your email..."
             disabled={isSubmitting}
             {...register("email")}
