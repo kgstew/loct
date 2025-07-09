@@ -5,10 +5,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterFormData, registerSchema } from "./schema";
 
-// API configuration
-const API_BASE_URL = import.meta.env.PROD 
-  ? 'your-production-api-url.com' 
-  : 'http://localhost:5000';
+// API configuration for Vercel deployment
+const getApiBaseUrl = () => {
+  // In production (Vercel), use the same domain
+  if (import.meta.env.PROD) {
+    return window.location.origin;
+  }
+  // In development, check if we have a custom API URL
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  // Default to local development server
+  return 'http://localhost:5000';
+};
 
 const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
   const [error, setError] = useState("");
@@ -30,15 +39,18 @@ const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
       setError("");
       const { email } = data;
 
-      // Make API call to your backend instead of directly to Brevo
+      const apiBaseUrl = getApiBaseUrl();
+      
+      // Make API call to your backend (Vercel API route or local server)
       const response = await axios.post(
-        `${API_BASE_URL}/api/subscribe`,
+        `${apiBaseUrl}/api/subscribe`,
         { email },
         {
           headers: {
             'Content-Type': 'application/json',
           },
-          withCredentials: true, // Include credentials if needed
+          // Don't use withCredentials in production unless needed
+          ...(import.meta.env.DEV && { withCredentials: true }),
         }
       );
 
@@ -56,12 +68,14 @@ const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
         const errorMessage = err.response?.data?.error || "Failed to subscribe. Please try again later.";
         setError(errorMessage);
         
-        // Log detailed error for debugging (remove in production)
-        console.error('Subscription error:', {
-          status: err.response?.status,
-          data: err.response?.data,
-          message: err.message
-        });
+        // Log detailed error for debugging (only in development)
+        if (import.meta.env.DEV) {
+          console.error('Subscription error:', {
+            status: err.response?.status,
+            data: err.response?.data,
+            message: err.message
+          });
+        }
       } else {
         console.error('Unexpected error:', err);
         setError("An unexpected error occurred.");

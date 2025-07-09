@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "env": {
+    "BREVO_API_KEY": "@brevo_api_key",
+    "FRONTEND_URL": "@frontend_url"
+  },
+  "build": {
+    "env": {
+      "VITE_API_BASE_URL": "https://your-project.vercel.app"
+    }
+  }
+}
