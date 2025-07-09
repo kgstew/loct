@@ -5,7 +5,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterFormData, registerSchema } from "./schema";
 
-// Email schema using zod
+// API configuration for Vercel deployment
+const getApiBaseUrl = () => {
+  // In production (Vercel), use the same domain
+  if (import.meta.env.PROD) {
+    return window.location.origin;
+  }
+  // In development, check if we have a custom API URL
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  // Default to local development server
+  return 'http://localhost:5000';
+};
 
 const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
   const [error, setError] = useState("");
@@ -23,39 +35,49 @@ const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
   });
 
   const submitToBrevo = async (data: RegisterFormData) => {
-    console.log(data);
     try {
-      // Validate email with zod
       setError("");
       const { email } = data;
-      console.log(email);
-      console.log(import.meta.env.BREVO_API_KEY);
 
-      // Make API call using axios
-      await axios.post(
-        "https://api.brevo.com/v3/contacts",
-        {
-          email,
-          updateEnabled: false,
-        },
+      const apiBaseUrl = getApiBaseUrl();
+      
+      // Make API call to your backend (Vercel API route or local server)
+      const response = await axios.post(
+        `${apiBaseUrl}/api/subscribe`,
+        { email },
         {
           headers: {
-            accept: "application/json",
-            "content-type": "application/json",
-            "api-key": import.meta.env.VITE_BREVO_API_KEY,
+            'Content-Type': 'application/json',
           },
+          // Don't use withCredentials in production unless needed
+          ...(import.meta.env.DEV && { withCredentials: true }),
         }
       );
 
-      onSubmit();
-      setSuccess(true);
+      if (response.data.success) {
+        onSubmit();
+        setSuccess(true);
+      } else {
+        setError(response.data.error || "Failed to subscribe. Please try again later.");
+      }
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
       } else if (axios.isAxiosError(err)) {
-        setError("Failed to subscribe. Please try again later.");
+        // Handle backend error responses
+        const errorMessage = err.response?.data?.error || "Failed to subscribe. Please try again later.";
+        setError(errorMessage);
+        
+        // Log detailed error for debugging (only in development)
+        if (import.meta.env.DEV) {
+          console.error('Subscription error:', {
+            status: err.response?.status,
+            data: err.response?.data,
+            message: err.message
+          });
+        }
       } else {
-        console.log(err);
+        console.error('Unexpected error:', err);
         setError("An unexpected error occurred.");
       }
     }
