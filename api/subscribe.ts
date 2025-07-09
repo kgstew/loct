@@ -24,7 +24,11 @@ const corsHeaders = {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
-    return res.status(200).json({}).end();
+    // Set CORS headers for preflight
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+      res.setHeader(key, value);
+    });
+    return res.status(200).end();
   }
 
   // Only allow POST requests
