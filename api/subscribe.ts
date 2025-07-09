@@ -14,12 +14,12 @@ const emailSchema = z.object({
 const corsHeaders = {
   "Access-Control-Allow-Origin":
     process.env.NODE_ENV === "production"
-      ? process.env.FRONTEND_URL
+      ? process.env.FRONTEND_URL || "https://your-domain.vercel.app"
       : "http://localhost:5173",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Allow-Credentials": "true",
-};
+} as const;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Handle CORS preflight
