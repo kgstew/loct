@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterFormData, registerSchema } from "./schema";
 
-// Email schema using zod
+// API configuration
+const API_BASE_URL = import.meta.env.PROD 
+  ? 'your-production-api-url.com' 
+  : 'http://localhost:5000';
 
 const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
   const [error, setError] = useState("");
@@ -23,39 +26,44 @@ const BrevoEmailSubscribe = ({ onSubmit }: { onSubmit: () => void }) => {
   });
 
   const submitToBrevo = async (data: RegisterFormData) => {
-    console.log(data);
     try {
-      // Validate email with zod
       setError("");
       const { email } = data;
-      console.log(email);
-      console.log(import.meta.env.BREVO_API_KEY);
 
-      // Make API call using axios
-      await axios.post(
-        "https://api.brevo.com/v3/contacts",
-        {
-          email,
-          updateEnabled: false,
-        },
+      // Make API call to your backend instead of directly to Brevo
+      const response = await axios.post(
+        `${API_BASE_URL}/api/subscribe`,
+        { email },
         {
           headers: {
-            accept: "application/json",
-            "content-type": "application/json",
-            "api-key": import.meta.env.VITE_BREVO_API_KEY,
+            'Content-Type': 'application/json',
           },
+          withCredentials: true, // Include credentials if needed
         }
       );
 
-      onSubmit();
-      setSuccess(true);
+      if (response.data.success) {
+        onSubmit();
+        setSuccess(true);
+      } else {
+        setError(response.data.error || "Failed to subscribe. Please try again later.");
+      }
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
       } else if (axios.isAxiosError(err)) {
-        setError("Failed to subscribe. Please try again later.");
+        // Handle backend error responses
+        const errorMessage = err.response?.data?.error || "Failed to subscribe. Please try again later.";
+        setError(errorMessage);
+        
+        // Log detailed error for debugging (remove in production)
+        console.error('Subscription error:', {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message
+        });
       } else {
-        console.log(err);
+        console.error('Unexpected error:', err);
         setError("An unexpected error occurred.");
       }
     }
