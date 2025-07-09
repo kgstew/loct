@@ -1,6 +1,5 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
-import axios from "axios";
-import { z } from "zod";
+const axios = require('axios');
+const { z } = require('zod');
 
 // Email validation schema
 const emailSchema = z.object({
@@ -14,14 +13,14 @@ const emailSchema = z.object({
 const corsHeaders = {
   "Access-Control-Allow-Origin":
     process.env.NODE_ENV === "production"
-      ? process.env.FRONTEND_URL || "https://your-domain.vercel.app"
+      ? process.env.FRONTEND_URL || "*"
       : "http://localhost:5173",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Allow-Credentials": "true",
-} as const;
+};
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
     // Set CORS headers for preflight
@@ -96,7 +95,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (error) {
     console.error("Subscription error:", error);
 
-    if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError && axios.isAxiosError(error)) {
       // Handle Brevo API errors
       if (error.response?.status === 400) {
         return res.status(400).json({
@@ -125,4 +124,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       error: "Internal server error",
     });
   }
-}
+};
