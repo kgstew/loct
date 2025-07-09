@@ -5,12 +5,6 @@
     }
   },
   "env": {
-    "BREVO_API_KEY": "@brevo_api_key",
-    "FRONTEND_URL": "@frontend_url"
-  },
-  "build": {
-    "env": {
-      "VITE_API_BASE_URL": "https://your-project.vercel.app"
-    }
+    "BREVO_API_KEY": "@brevo_api_key"
   }
 }
