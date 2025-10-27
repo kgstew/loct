@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { z } = require('zod');
+const axios = require("axios");
+const { z } = require("zod");
 
 // Email validation schema
 const emailSchema = z.object({
@@ -8,6 +8,8 @@ const emailSchema = z.object({
     .min(1, "Email is required")
     .email("Please enter a valid email address"),
 });
+
+const LOCT_EMAIL_LIST = 3;
 
 // CORS headers
 const corsHeaders = {
@@ -73,6 +75,7 @@ module.exports = async function handler(req, res) {
       {
         email,
         updateEnabled: false,
+        listIds: [LOCT_EMAIL_LIST],
       },
       {
         headers: {
